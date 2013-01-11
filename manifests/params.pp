@@ -17,6 +17,8 @@ class monitoring::params (
 ) {
   $nagios_plugins = $architecture ? { 'x86_64' => '/usr/lib64/nagios/plugins', default => '/usr/lib/nagios/plugins'}
   $nagios_extra_plugins = hiera('monitoring::nagios_extra_plugins', $nagios_plugins)
+  $total_procs_warn = hiera('monitoring::total_procs_warn', 250)
+  $total_procs_crit = hiera('monitoring::total_procs_crit', 300)
   #  $send_nsca_cmd = '/usr/sbin/send_nsca'
 /*
   case $osfamily {

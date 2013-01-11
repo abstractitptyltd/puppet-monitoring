@@ -12,6 +12,8 @@ define monitoring::service (
   $host_name = hiera('monitoring::params::host_name', $fqdn),
   $monitoring_service = hiera('monitoring::params::monitoring_service', 'icinga::service'),
   $monitoring_server = hiera('monitoring::params::monitoring_server'),
+  $max_check_attempts = undef,
+  $notification_options = undef,
 ) {
 
   include monitoring::params
@@ -30,6 +32,8 @@ define monitoring::service (
     check_command => $check_command,
     contact_groups => $sms_alerts ? { false => $contact_groups, true => $real_sms_group },
     notifications_enabled => $notifications ? { default => undef, false => 0 },
+    max_check_attempts => $max_check_attempts,
+    notification_options => $notification_options,
     register => $register,
     notify => Class[$monitoring_service],
     tag => $monitoring_server,
