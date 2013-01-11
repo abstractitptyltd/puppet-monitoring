@@ -10,6 +10,7 @@ nagios_timeperiod { "24x7":
   thursday        => "00:00-24:00",
   friday          => "00:00-24:00",
   saturday        => "00:00-24:00",
+  notify      => Class[$monitoring_service],
 }
 
 
@@ -21,6 +22,7 @@ nagios_timeperiod { "workhours":
   wednesday       => "09:00-17:00",
   thursday        => "09:00-17:00",
   friday          => "09:00-17:00",
+  notify      => Class[$monitoring_service],
 }
 
 

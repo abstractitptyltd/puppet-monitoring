@@ -76,6 +76,7 @@ class monitoring::templates {
     notification_period      => '24x7',
     check_period        => '24x7',
     register          => '0',
+    notify      => Class[$monitoring_service],
   }
 
 
@@ -89,6 +90,7 @@ class monitoring::templates {
     notification_options  => 'd,r',
     contact_groups      => 'admins',
     register        => '0',
+    notify      => Class[$monitoring_service],
   }
 
   nagios_host { 'virtual_server':
@@ -96,57 +98,65 @@ class monitoring::templates {
     use        => 'linux_server',
     check_command  => 'check_virtual_host',
     register    => '0',
+    notify      => Class[$monitoring_service],
   }
 
   nagios_host { 'osol_virtual_server':
 #    host_name    => 'osol_virtual_server',
     use        => 'linux_server',
     check_command  => 'check_virtual_host',
-    contact_groups  => 'admins,linux_admins,rt',
+    contact_groups  => 'admins,linux_admins',
     register    => '0',
+    notify      => Class[$monitoring_service],
   }
 
   nagios_host { 'osol_server':
 #    host_name    => 'osol_server',
     use        => 'linux_server',
-    contact_groups  => 'admins,linux_admins,rt',
+    contact_groups  => 'admins,linux_admins',
     register    => '0',
+    notify      => Class[$monitoring_service],
   }
 
   nagios_host { 'centos_server':
 #    host_name    => 'centos_server',
     use        => 'linux_server',
-    contact_groups  => 'admins,linux_admins,rt',
+    contact_groups  => 'admins,linux_admins',
     register    => '0',
+    notify      => Class[$monitoring_service],
   }
 
   nagios_host { 'debian_server':
 #    host_name    => 'debian_server',
     use        => 'linux_server',
-    contact_groups  => 'admins,linux_admins,rt',
+    contact_groups  => 'admins,linux_admins',
     register    => '0',
+    notify      => Class[$monitoring_service],
   }
 
   nagios_host { 'fedora_server':
 #    host_name    => 'fedora_server',
     use        => 'linux_server',
-    contact_groups  => 'admins,linux_admins,rt',
+    contact_groups  => 'admins,linux_admins',
     register    => '0',
+    notify      => Class[$monitoring_service],
   }
 
   nagios_host { 'net_device':
 #    host_name    => 'net_device',
     use        => 'linux_server',
-    contact_groups  => 'admins,linux_admins,rt',
+    contact_groups  => 'admins,linux_admins',
     register    => '0',
+    notify      => Class[$monitoring_service],
   }
 
   nagios_host { 'http_host':
 #    host_name    => 'http_host',
     use        => 'linux_server',
     check_command  => 'check_http!$HOSTADDRESS',
-    contact_groups  => 'admins,linux_admins,rt',
+    contact_groups  => 'admins,linux_admins',
     register    => '0',
+    notify      => Class[$monitoring_service],
   }
 
   nagios_host { 'passive_server':
@@ -156,6 +166,7 @@ class monitoring::templates {
     passive_checks_enabled  => '1',
     check_command      => 'check_nrpe!check_dummy',
     register        => '0',
+    notify      => Class[$monitoring_service],
   }
 
   nagios_host { 'nonotify_server':
@@ -165,6 +176,7 @@ class monitoring::templates {
     passive_checks_enabled  => '1',
     notifications_enabled  => '0',
     register        => '0',
+    notify      => Class[$monitoring_service],
   }
 
   nagios_service { 'generic_service':
@@ -182,6 +194,7 @@ class monitoring::templates {
     retain_nonstatus_information  => '1',
     is_volatile            => '0',
     register            => '0',
+    notify      => Class[$monitoring_service],
   }
 
 
@@ -196,11 +209,13 @@ class monitoring::templates {
     notification_interval  => $nagios_notify_interval,
     notification_period    => '24x7',
     register        => '0',
+    notify      => Class[$monitoring_service],
   }
 
   nagios_service { 'local_service':
     use      => 'standard_service',
     register  => '0',
+    notify      => Class[$monitoring_service],
   }
 
   nagios_service { 'passive_service':
@@ -212,18 +227,21 @@ class monitoring::templates {
     freshness_threshold    => '900',
     obsess_over_service    => '0',
     register        => '0',
+    notify      => Class[$monitoring_service],
   }
 
   nagios_service { 'noobsess_service':
     use            => 'generic_service',
     obsess_over_service    => '0',
     register        => '0',
+    notify      => Class[$monitoring_service],
   }
 
   nagios_service { 'nonotify_service':
     use            => 'generic_service',
     notifications_enabled  => '0',
     register        => '0',
+    notify      => Class[$monitoring_service],
   }
 
   nagios_service { 'trap_service':
@@ -235,6 +253,7 @@ class monitoring::templates {
     check_command      => 'check_host_alive',
     is_volatile        => '1',
     register        => '0',
+    notify      => Class[$monitoring_service],
   }
 
 }
