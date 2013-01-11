@@ -19,6 +19,8 @@ class monitoring::params (
   $nagios_extra_plugins = hiera('monitoring::nagios_extra_plugins', $nagios_plugins)
   $total_procs_warn = hiera('monitoring::total_procs_warn', 250)
   $total_procs_crit = hiera('monitoring::total_procs_crit', 300)
+  $mailq_warn = 100
+  $mailq_crit = 300
   #  $send_nsca_cmd = '/usr/sbin/send_nsca'
 /*
   case $osfamily {
