@@ -11,7 +11,7 @@ class monitoring::service::reboot {
     max_check_attempts => 1,
     notification_options => 'w',
     contact_groups => 'admins,linux_admins',
-    contact_groups_sms 'linux_admin_sms',
+    contact_groups_sms => 'linux_admin_sms', 
   }
   file { '/etc/cron.d/reboot_alert':
     ensure  => $ensure,
