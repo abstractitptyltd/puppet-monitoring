@@ -1,0 +1,47 @@
+#!/usr/bin/perl -w
+
+use strict;
+use Getopt::Long;
+
+## reboot alert
+my ($nagiosname, $verbose, $command, $result);
+my ($uptime, $updays, $uphours, $upmins, $upsecs);
+GetOptions( "nagiosname=s" => \$nagiosname, "verbose" => \$verbose);
+
+$upsecs = `facter uptime_seconds`;
+chomp($upsecs);
+#if ($uptime =~ /up\s+(\d+)\s+days\,\s+(\d+)\:(\d+)/i) {
+#    $updays = $1;
+#    $uphours = $2;
+#    $upmins = $3;
+#}
+#$upsecs = ($updays * 24 * 60 * 60) + ($uphours * 60 * 60) + ($upmins * 60);
+#print $uptime."\n" if $verbose;
+#print "days up : $updays\n" if $verbose;
+#print "hours up : $uphours\n" if $verbose;
+#print "mins up : $upmins\n" if $verbose;
+
+print "total secs up : $upsecs\n" if $verbose;
+
+sleep(240);
+
+if ($upsecs > 300 ) {
+    print "only a cron restart not a full rebooot" if $verbose;
+} else {
+    $command = '<%= nagios_extra_plugins %>/submit_check_result '.$nagiosname.' "REBOOT" WARNING "server was rebooted"';
+}
+
+$result = system($command);
+
+# if ($? == -1) {
+#     print "failed to execute: $!\n";
+# }
+# elsif ($? & 127) {
+#     printf "child died with signal %d, %s coredump\n",
+# 	($? & 127),  ($? & 128) ? 'with' : 'without';
+# }
+# else {
+#     printf "child exited with value %d\n", $? >> 8;
+# }
+# 
+exit();
