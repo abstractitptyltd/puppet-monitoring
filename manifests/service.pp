@@ -14,7 +14,9 @@ define monitoring::service (
   $monitoring_server = hiera('monitoring::params::monitoring_server'),
   $max_check_attempts = undef,
   $notification_options = undef,
+  $normal_check_interval = undef,
   $retry_check_interval = undef,
+  $notification_interval = undef,
 ) {
 
   include monitoring::params
@@ -34,6 +36,8 @@ define monitoring::service (
     contact_groups => $sms_alerts ? { false => $contact_groups, true => $real_sms_group },
     notifications_enabled => $notifications ? { default => undef, false => 0 },
     max_check_attempts => $max_check_attempts,
+    normal_check_interval => $normal_check_interval,
+    notification_interval => $notification_interval,
     retry_check_interval => $retry_check_interval,
     notification_options => $notification_options,
     register => $register,

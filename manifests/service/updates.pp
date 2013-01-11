@@ -7,7 +7,7 @@ class monitoring::service::updates {
     servicegroups => 'system',
     check_command => 'check_nrpe!check_updates',
     normal_check_interval => 1440,
-    notification_interval=> 1440,
+    notification_interval => 1440,
     retry_check_interval => 720,
     contact_groups => 'admins,linux_admins',
   }
