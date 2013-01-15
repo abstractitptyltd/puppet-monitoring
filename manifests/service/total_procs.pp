@@ -2,7 +2,7 @@
 class monitoring::service::total_procs {
   include monitoring::params
   $total_procs_warn = $monitoring::params::total_procs_warn
-  $total_procs_crit = $monitoring::params::total_procs_warn
+  $total_procs_crit = $monitoring::params::total_procs_crit
   monitoring::service { "total_procs":
     service_description    => 'PROCS',
     servicegroups      => 'system',
