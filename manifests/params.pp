@@ -12,6 +12,8 @@ class monitoring::params (
   $host_type = 'linux_server',
   $host_alias = undef,
   $notification_period = undef,
+  $ping_warn = '550.0,40%',
+  $ping_crit = '750.0,70%',
   #  $nsca_password = hiera('monitoring::nsca_password'),
   #  $nsca_encryption = hiera('monitoring::nsca_encryption', '10')
 ) {
