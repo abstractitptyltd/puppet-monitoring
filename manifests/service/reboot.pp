@@ -1,7 +1,9 @@
 
 class monitoring::service::reboot {
   include monitoring::params
+  $ensure = $monitoring::params::ensure
   $nagios_extra_plugins = $monitoring::params::nagios_extra_plugins
+  $host_name = $monitoring::params::host_name
 
   monitoring::service { "reboot":
     service_type => 'passive_service',
@@ -15,13 +17,13 @@ class monitoring::service::reboot {
   }
   file { '/etc/cron.d/reboot_alert':
     ensure  => $ensure,
-    content  => "@reboot root perl $nagios_extra_plugins/server_reboot_alert.pl --nagiosname=$nagios_host_name",
+    content  => "@reboot root perl $nagios_extra_plugins/server_reboot_alert.pl --nagiosname=${monitoring::params::host_name}",
     owner  => root,
     group  => root,
     mode  => 644,
   }
   file { 'scripts_server_reboot_alert':
-    ensure  => $nagios_ensure,
+    ensure  => $ensure,
     name  => "${nagios_extra_plugins}/server_reboot_alert.pl",
     mode  => 755,
     owner  => root,
