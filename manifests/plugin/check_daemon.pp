@@ -17,5 +17,17 @@ class monitoring::plugin::check_daemon {
     ensure => installed,
     name => $osfamily ? { RedHat => "perl-Proc-ProcessTable", Debian => "libproc-processtable-perl" },
   }
+  package { "lsof":
+    ensure => installed,
+  }
+  package { "perl-IPC-Run3":
+    ensure => installed,
+  }
+
+  exec { "install Unix::Lsof via cpan":
+    command => "perl -MCPAN -e '\$ENV{PERL_MM_USE_DEFAULT}=1; CPAN::Shell->install(\"Unix::Lsof\")'",
+    onlyif => "test `perl -MUnix::Lsof -e 'print 1' 2>/dev/null || echo 0` == '0'",
+    require => [Package["lsof"],Package["perl-IPC-Run3"]],
+  }
 
 }
