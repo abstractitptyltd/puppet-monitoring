@@ -21,4 +21,18 @@ class monitoring::service::updates {
     check_command => $operatingsystem ? { default => 'check_updates -t 120 --no-boot-check --security-only', /(Debian|Ubuntu)/ => 'check_apt -t 120' },
     sudo => $operatingsystem ? { default => false, /(Debian|Ubuntu)/ => true },
   }
+  case $operatingsystem {
+    centos,redhat: {
+      package { "yum-security":
+        name => $operatingsystemrelease ? { default => "yum-plugin-security", /^5/ => "yum-security" },
+        ensure => installed,
+      }
+    }
+    fedora: {
+      package { [ "yum-plugin-security" ]:
+        ensure => installed,
+      }
+    }
+  }
+
 }

@@ -13,4 +13,9 @@ class monitoring::plugin::check_daemon {
     content  => template("monitoring/scripts/check_daemon.pl.erb"),
     require  => File[$nagios_extra_plugins],
   }
+  package { "perl-Proc-ProcessTable":
+    ensure => installed,
+    name => $osfamily ? { RedHat => "perl-Proc-ProcessTable", Debian => "libproc-processtable-perl" },
+  }
+
 }

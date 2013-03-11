@@ -4,7 +4,7 @@ class monitoring::params (
   $sms_alerts = true,
   $notifications = true,
   $monitoring_server,
-  $monitoring_service = 'icinga::service',
+  $monitoring_service,
   $host_name = $fqdn,
   $host_ip = $ipaddress,
   $host_groups = undef,
@@ -15,8 +15,6 @@ class monitoring::params (
   $notification_period = undef,
   $ping_warn = '550.0,40%',
   $ping_crit = '750.0,70%',
-  #  $nsca_password = hiera('monitoring::nsca_password'),
-  #  $nsca_encryption = hiera('monitoring::nsca_encryption', '10')
 ) {
   $nagios_plugins = $architecture ? { 'x86_64' => '/usr/lib64/nagios/plugins', default => '/usr/lib/nagios/plugins'}
   $nagios_extra_plugins = hiera('monitoring::nagios_extra_plugins', $nagios_plugins)
@@ -24,16 +22,5 @@ class monitoring::params (
   $total_procs_crit = hiera('monitoring::total_procs_crit', 300)
   $mailq_warn = 100
   $mailq_crit = 300
-  #  $send_nsca_cmd = '/usr/sbin/send_nsca'
-/*
-  case $osfamily {
-    default: {
-      $send_nsca_cfg = '/etc/nagios/send_nsca.cfg' 
-    }
-    Debian: {
-      $send_nsca_cfg = '/etc/send_nsca.cfg' 
-    }
-  }
-*/
 }
 

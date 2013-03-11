@@ -30,9 +30,6 @@ class monitoring::host {
     tag => $monitoring_server,
   }
 
-  #  include nrpe
-  #  include monitoring::install
-  #  include monitoring::scripts # move these into the specific plugins that need them
   include monitoring::service::ping
   include monitoring::service::users
   include monitoring::service::total_procs
