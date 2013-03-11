@@ -1,5 +1,5 @@
 name 'rendhalver-monitoring'
-version '1.0.5'
+version '1.0.6'
 summary 'puppet module for managing puppet monitoring resources'
 description "manage puppet's nagios_* resources in a monitoring server agnostic way
     Easily setup nodes with basic monitoring services
