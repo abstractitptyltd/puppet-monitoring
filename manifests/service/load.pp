@@ -14,6 +14,7 @@ class monitoring::service::load {
   }
   nrpe::plugin { 'load':
     plugin => 'main',
-    check_command => 'check_load -w 15,10,5 -c 30,25,20',
+    check_command => 'check_load',
+    command_args => '-w 15,10,5 -c 30,25,20',
   }
 }

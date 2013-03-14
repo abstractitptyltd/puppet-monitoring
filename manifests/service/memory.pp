@@ -16,8 +16,8 @@ class monitoring::service::memory {
   nrpe::plugin { 'memory':
     ensure      => $ensure,
     plugin      => 'extra',
-    check_command  => 'check_memory.pl -w 5% -c 2%',
-    notify      => Class['nrpe::service'],
+    check_command  => 'check_memory.pl',
+    command_args  => '-w 5% -c 2%',
   }
 
   file { 'scripts_check_memory':

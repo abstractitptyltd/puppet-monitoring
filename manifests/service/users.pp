@@ -13,7 +13,7 @@ class monitoring::service::users {
   nrpe::plugin { 'users':
     ensure => $ensure,
     plugin => 'main',
-    check_command => 'check_users -w 15 -c 20',
-    notify => Class['nrpe::service'],
+    check_command => 'check_users',
+    command_args => '-w 15 -c 20',
   }
 }

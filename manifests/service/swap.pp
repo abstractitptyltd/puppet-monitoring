@@ -15,6 +15,7 @@ class monitoring::service::swap {
   nrpe::plugin { 'swap':
     ensure      => $ensure,
     plugin      => 'main',
-    check_command  => 'check_swap -w 40% -c 20%',
+    check_command  => 'check_swap',
+    command_args  => '-w 40% -c 20%',
   }
 }

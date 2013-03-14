@@ -16,7 +16,7 @@ class monitoring::service::total_procs {
   nrpe::plugin { 'total_procs':
     ensure      => $ensure,
     plugin      => 'main',
-    check_command  => "check_procs -w ${total_procs_warn} -c ${total_procs_crit}",
-    notify      => Class['nrpe::service'],
+    check_command  => "check_procs",
+    command_args  => "-w ${total_procs_warn} -c ${total_procs_crit}",
   }
 }

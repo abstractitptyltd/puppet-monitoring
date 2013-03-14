@@ -15,6 +15,7 @@ class monitoring::service::disk {
     ensure => $ensure,
     plugin => 'main',
     sudo => true,
-    check_command => 'check_disk -w 20% -c 10% --all',
+    check_command => 'check_disk',
+    command_args => '-w 20% -c 10% --all',
   }
 }

@@ -18,7 +18,8 @@ class monitoring::service::updates {
   nrpe::plugin { 'updates':
     ensure => $ensure,
     plugin => $operatingsystem ? { default => 'main', /(Debian|Ubunutu)/ => 'main' },
-    check_command => $operatingsystem ? { default => 'check_updates -t 120 --no-boot-check --security-only', /(Debian|Ubuntu)/ => 'check_apt -t 120' },
+    check_command => $operatingsystem ? { default => 'check_updates', /(Debian|Ubuntu)/ => 'check_apt' },
+    command_args => $operatingsystem ? { default => '-t 120 --no-boot-check --security-only', /(Debian|Ubuntu)/ => '-t 120' },
     sudo => $operatingsystem ? { default => false, /(Debian|Ubuntu)/ => true },
   }
   case $operatingsystem {
