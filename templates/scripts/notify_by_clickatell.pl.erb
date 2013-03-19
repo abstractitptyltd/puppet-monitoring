@@ -1,0 +1,102 @@
+#!/usr/bin/perl -w
+
+use strict;
+require LWP::UserAgent;
+
+use Getopt::Long;
+use vars qw($opt_version $opt_help $opt_username $opt_nagiosuser $opt_nagioscomment $opt_notificationtype $opt_password $opt_api_id $opt_baseurl $opt_text $opt_to $opt_timeout $PROGNAME);
+use lib "<%= scope.lookupvar('monitoring::params::nagios_plugins') %>" ;
+use utils qw(%ERRORS &print_revision &support &usage);
+
+$PROGNAME = "notify_by_clickatell";
+
+sub print_help ();
+sub print_usage ();
+
+Getopt::Long::Configure('bundling');
+
+GetOptions
+        ("v"   => \$opt_version, "version"    => \$opt_version,
+         "h"   => \$opt_help, "help"       => \$opt_help,
+         "a=s" => \$opt_api_id, "apiid=s" => \$opt_api_id,
+         "b=s" => \$opt_baseurl, "baseurl=s" => \$opt_baseurl,
+         "m=s" => \$opt_text, "message=s" => \$opt_text,
+         "n=s" => \$opt_notificationtype, "notification=s" => \$opt_notificationtype,
+         "w=s" => \$opt_nagiosuser, "nagiosuser=s"  => \$opt_nagiosuser,
+         "c=s" => \$opt_nagioscomment, "nagioscomment=s"  => \$opt_nagioscomment,
+         "p=s" => \$opt_password, "password=s" => \$opt_password,
+         "t=s" => \$opt_to, "to=s" => \$opt_to,
+         "d=s" => \$opt_timeout, "timeout=s" => \$opt_timeout,
+         "u=s" => \$opt_username, "username=s"  => \$opt_username);
+
+if ($opt_version) {
+        print_revision($PROGNAME,'$Revision: 1.1 $');
+        exit $ERRORS{'OK'};
+}
+if ($opt_help) {print_help(); exit $ERRORS{'OK'};}
+
+($opt_api_id) || usage("Gateway api ID must be specified\n");
+($opt_text) || usage("Message body must be specified\n");
+($opt_password) || usage("Gateway login password must be specified\n");
+($opt_to) || usage("Phone to number must be specified\n");
+($opt_username) || usage("Gateway login username must be specified\n");
+
+if (!$opt_baseurl) {
+    $opt_baseurl = "https://api.clickatell.com";
+}
+
+if ($opt_notificationtype eq "ACKNOWLEDGEMENT") {
+    $opt_text .= " Acknowledged by $opt_nagiosuser with messsage: $opt_nagioscomment";
+} elsif ($opt_nagioscomment && $opt_nagiosuser)  {
+    $opt_text .= " User : $opt_nagiosuser Comment : $opt_nagioscomment";
+}
+
+my $send_url = $opt_baseurl."/http/sendmsg?concat=3&user=".$opt_username."&password=".$opt_password."&api_id=".$opt_api_id."&to=".$opt_to."&text=".$opt_text;
+
+# print $send_url."\n";
+
+my $ua = LWP::UserAgent->new;
+$ua->agent("<%= scope.lookupvar('monitoring::params::server_type') %>");
+$ua->timeout($opt_timeout);
+
+my $response = $ua->get($send_url);
+
+if ($response->is_success) {
+	if ($response->content =~ m/^ID\: /) {
+		print "Message Sent\n";
+		exit $ERRORS{'OK'};
+# 		print "status".$response->status_line."\n";
+# 		print "content".$response->content."\n";  # or whatever
+	} else {
+        print "Gateway authentication failed\n";
+        exit $ERRORS{'CRITICAL'};
+# 		print "error";
+# 		print "status".$response->status_line."\n";
+# 		print "content".$response->content."\n";  # or whatever
+	}
+}
+
+sub print_usage () {
+    print "Usage: $PROGNAME -u <gw_username> -p <gw_password> -a <gw_api_id> -b <gw_baseurl> -m <message_text> -t <to_msisdn>\n";
+}
+
+sub print_help () {
+        print_revision($PROGNAME,'$Revision: 1.1 $');
+        print_usage();
+        print "
+-a, --apiid=API_ID
+   Api ID for gateway login. It is specified by gateway company.
+-b, --baseurl=BASE_URL
+   Base URL for login and send SMS actions of gateway. Default: http://api.clickatell.com.
+-m, --message=MESSAGE_TEXT
+   Message text that will be sent to TO number. Max: 160 chars.
+-p, --password=PASSWORD
+   Login password for gateway login.
+-t, --to=TO_NUMBER
+   GSM phone number that the message will be delivered to.
+-u, --username=USERNAME
+   Login username for gateway login.
+
+";
+        support();
+    }
