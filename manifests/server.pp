@@ -1,5 +1,5 @@
 
-class monitoring::server ($ensure = 'present', $use_db = true, $nsca = '1', $www = '0') {
+class monitoring::server {
 
   include monitoring::templates
   include monitoring::commands
@@ -9,14 +9,31 @@ class monitoring::server ($ensure = 'present', $use_db = true, $nsca = '1', $www
   include monitoring::timeperiods
   include monitoring::params
   $host_name = $monitoring::params::host_name
-  #  include monitoring::site # probably don't need to pull this in anymore since it gets pulled in below will just need to include it on the monitoring server node...
 
   file { ['/etc/nagios/nagios_host.cfg','/etc/nagios/nagios_hostgroup.cfg','/etc/nagios/nagios_hostescalation.cfg','/etc/nagios/nagios_hostdependency.cfg','/etc/nagios/nagios_service.cfg','/etc/nagios/nagios_servicegroup.cfg','/etc/nagios/nagios_serviceescalation.cfg','/etc/nagios/nagios_servicedependency.cfg','/etc/nagios/nagios_contact.cfg','/etc/nagios/nagios_contactgroup.cfg','/etc/nagios/nagios_timeperiod.cfg','/etc/nagios/nagios_command.cfg']:
-    ensure => $ensure,
+    ensure => file,
     owner => root,
     group => root,
     mode => 644,
   }
+
+  ## if monitoring::params::sms_alerts == true {
+  monitoring::script { $monitoring::params::sms_notify_script_name:
+    template => $monitoring::params::sms_notify_script_template,
+  }
+  monitoring::command { "host_notify_by_pager":
+    command => $monitoring::params::sms_notify_script_name,
+    command_args => $monitoring::params::sms_host_notify_command_args,
+    plugin_type => "extra",
+    require => Monitoring::Script[$monitoring::params::sms_notify_script_name],
+  }
+  monitoring::command { "notify_by_pager":
+    command => $monitoring::params::sms_notify_script_name,
+    command_args => $monitoring::params::sms_notify_command_args,
+    plugin_type => "extra",
+    require => Monitoring::Script[$monitoring::params::sms_notify_script_name],
+  }
+  ##}
 
   Nagios_command <| |>
   Nagios_servicegroup <| |>
@@ -35,21 +52,5 @@ class monitoring::server ($ensure = 'present', $use_db = true, $nsca = '1', $www
   Nagios_hostdependency  <<| tag == $host_name |>>
   Nagios_service <<| tag == $host_name |>>
   Nagios_servicedependency <<| tag == $host_name |>>
-  ## remove these after migrating everything
-  /*
-  Nagios_hostescalation <| tag == "nagios_${nagios_host_name}" |>
-  Nagios_serviceescalation <| tag == "nagios_${nagios_host_name}" |>
-  Nagios_hostescalation <<| tag == "nagios_${nagios_host_name}" |>>
-  Nagios_serviceescalation <<| tag == "nagios_${nagios_host_name}" |>>
-  Nagios_host <| tag == "nagios_${nagios_host_name}" |>
-  Nagios_hostdependency  <| tag == "nagios_${nagios_host_name}" |>
-  Nagios_service <| tag == "nagios_${nagios_host_name}" |>
-  Nagios_servicedependency <| tag == "nagios_${nagios_host_name}" |>
-  Nagios_host <<| tag == "nagios_${nagios_host_name}" |>>
-  Nagios_hostdependency  <<| tag == "nagios_${nagios_host_name}" |>>
-  Nagios_service <<| tag == "nagios_${nagios_host_name}" |>>
-  Nagios_servicedependency <<| tag == "nagios_${nagios_host_name}" |>>
-*/
-  File <| tag == 'nagios_script' |>
 
 }

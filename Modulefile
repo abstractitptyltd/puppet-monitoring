@@ -1,5 +1,5 @@
 name 'rendhalver-monitoring'
-version '1.0.6'
+version '1.1.0'
 summary 'puppet module for managing puppet monitoring resources'
 description "manage puppet's nagios_* resources in a monitoring server agnostic way
     Easily setup nodes with basic monitoring services
@@ -7,4 +7,5 @@ description "manage puppet's nagios_* resources in a monitoring server agnostic 
     Pretty basic for now but it will grow as I add new wrapper classes."
 project_page 'https://github.com/rendhalver/puppet-monitoring'
 source 'https://github.com/rendhalver/puppet-monitoring'
-dependency 'rendhalver/nrpe', '>=1.0.2'
+dependency 'rendhalver/nrpe', '>=1.1.0'
+dependency 'rendhalver/sudo', '>=1.0.0'

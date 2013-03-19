@@ -1,29 +1,341 @@
-Monitoring
+monitoring
+====
+
+####Table of Contents
+
+0. [Breaking Changes](#changes)
+1. [Requirements](#requirements)
+2. [Overview - What is the monitoring module?](#overview)
+3. [Module Description - What does the module do?](#module-description)
+4. [Setup - The basics of getting started with monitoring](#setup)
+5. [Usage - The parameters available for configuration](#usage)
+6. [Implementation - An under-the-hood peek at what the module is doing](#implementation)
+7. [Limitations - OS compatibility, etc.](#limitations)
+8. [Development - Guide for contributing to the module](#development)
+9. [Release Notes - Notes on the most recent updates to the module](#release-notes)
+
+Breaking Changes
+----------------
+
+`$monitoring_service` is no longer a class variable `monitoring::params`
+`$monitoring_type` is used to set the server type (icinga or nagios currently) which determines the user and service to notify
+
+Requirements
+--------
+
+Stored configs on your puppetmaster (I highly recommend using puppetdb with a postgresql backend for this).
+Hiera is used for getting some variables so a puppet version that supports hiera is required.
+I have only tested this with puppet 3.x but it should work with 2.7.
+If anyone has gotten it working in other versions please let me know.
 
 Overview
+--------
+
+Puppet module for managing monitoring and nagios resources
+Node resources are exported to a monitoring server
+
+Module Description
+------------------
 
 Puppet module for managing puppet monitoring resources.
 The base module sets up a few basic servies to monitor.
 
-See the examples/node.pp file for examples on how to add more services to a node.
-There are things missing that I need to add and I will get to them when I can.
-If you would like a new service add a ticket to github and I will address it as soon as I can.
+Setup
+-----
 
-License
+**what monitoring affects:**
 
-GPLv3
+* Not a lot on the node itself most resources are exported
+* On a server node the resources to monitor are put in /etc/nagios/ and can be read by icinga or nagios from there
 
-Contact
+### Beginning with monitoring
 
-rendhalver AT gmail dot com
-I am also active on the puppet-users list.
+This will manage a basic setup for monitoring a node.
+This will also pull in all the exported resources for a node that is also a monitoring server
 
-Support
+    include monitoring
 
-Please use github for reporting bugs.
-https://github.com/rendhalver/puppet-monitoring/issues
+Variables that need to be set for monitoring to work
+These are class params so use hiera or and ENC to set them up easily.
 
-TODO
+    $monitoring::params::monitoring_server
+    # node that will monitor this node
+    $monitoring::params::monitoring_type
+    # Type of the monitoring server (icinga or nagios currently)
 
-Need to make a monitoring::command define for adding commands.
-Add documentation to classes and defines.
+Extra params for this node
+
+    $monitoring::params::host_groups
+    # comma separates list of host_groups to add this host to
+    $monitoring::params::parents
+    # parent for this host
+    $monitoring::params::host_type
+    # host template to use for this host default is linux_server
+    $monitoring::params::host_alias
+    # alias to set for this host
+    $monitoring::params::check_period
+    # when to check this host
+    $monitoring::params::notification_period
+    # when to send notifications for this host
+
+Usage
+-----
+
+    monitoring::script { "script_name":
+      ensure => present, 
+      template => undef, 
+      file => undef, 
+      script_type => 'template',
+    }
+
+### monitoring::script
+
+installs a script in the `$monitoring::params::nagios_extra_plugins` directory
+
+**Parameters within monitoring::script**
+
+#### `ensure`
+
+Whether the script should exist or not default is taken from `$monitoring::params::ensure`
+
+#### `template`
+
+Location of the template
+
+#### `file`
+
+Full puppet location of the file 
+
+#### `script_type`
+
+Type of the script, template or file
+
+
+    monitoring::command { "command_name":
+      command => "command_to_run",
+      command_args => '--args', 
+      plugin_type => 'main',
+      sudo => false, 
+    }
+
+### monitoring::command
+
+Sets up a command on the monitoring server
+
+**Parameters within monitoring::command**
+
+#### `ensure`
+
+Whether the script should exist or not default is taken from `$monitoring::params::ensure`
+
+#### `command`
+
+Command to run.
+
+#### `command_args`
+
+Args for the command.
+
+#### `plugin_type`
+
+Type of plugin.
+
+#### `sudo`
+
+Whether to enable sudo for the command
+This sets up an sudo rule on the node for the user the monitoring server runs as (automagically determined)
+
+
+    monitoring::service { "service_name":
+      servicegroups => "blah,blah", 
+      check_command => 'command!arg1!arg2',
+      service_description => 'what it does',
+    }
+
+### monitoring::command
+
+Sets up a command on the monitoring server
+
+**Parameters within monitoring::command**
+
+#### `ensure`
+
+Whether the script should exist or not default is taken from `$monitoring::params::ensure`
+
+#### `servicegroups`
+
+servicegroups this command belongs to
+
+#### `check_command`
+
+command to run for the service check
+
+#### `service_description`
+
+description for the service
+
+#### `service_type`
+
+service template to use, default is `standard_service`
+
+#### `notifications`
+
+defaults to `$monitoring::params::notifications`
+
+#### `sms_alerts`
+
+defaults to `$monitoring::params::sms_alerts`
+
+#### `contact_groups`
+
+defaults to admins
+
+#### `sms_contact_groups`
+
+sms contats to append to `contact_groups` if `sms_alerts` is true
+
+#### `register`
+
+whether to register the service with the monitoring server
+
+#### `host_name`
+
+hostname for the serice to check, defaults to `$monitoring::params::host_name`
+
+#### `monitoring_server`
+
+monitoring server for the serice to check, defaults to `$monitoring::params::monitoring_server`
+
+#### `max_check_attempts`
+
+for overriding the default set in the service template
+
+#### `notification_options`
+
+for overriding the default set in the service template
+
+#### `normal_check_interval`
+
+for overriding the default set in the service template
+
+#### `retry_check_interval`
+
+for overriding the default set in the service template
+
+#### `notification_interval`
+
+for overriding the default set in the service template
+
+
+    monitoring::net_device { "router.example.com":
+      host_ip => "10.10.10.0", 
+    }
+
+### monitoring::net_device
+
+Sets up a router to monitor
+
+**Parameters within monitoring::net_device**
+
+#### `ensure`
+
+Whether the router should be defined. Defaults to true
+
+#### `host_ip`
+
+ip adress of the router
+
+#### `host_parents`
+
+parent of this router
+
+#### `host_groups`
+
+host groups for the router, defaults to network_hardware
+
+#### `host_alias`
+
+alias for the router, defaults to undef
+
+#### `timeperiod`
+
+for overriding the defualt 24x7 timeperiod
+
+#### `ping_warn`
+
+ping timout warning value for this router
+
+#### `ping_crit`
+
+ping timeout critical value for this router
+
+#### `notifications`
+
+whether to enable notifications, defaults to true
+
+#### `monitoring_server`
+
+server that monitors this router, defaults to `$monitoring::params::monitoring_server`
+
+
+Implementation
+--------------
+
+Uses exported resources to specify which services get monitored on this node
+
+Limitations
+------------
+
+There may be some. Don't hesitate to let me know if you find any.
+
+Development
+-----------
+
+All development, testing and releasing is done by me at this stage.
+If you wish to join in let me know.
+
+Release Notes
+-------------
+
+**1.1.0**
+
+added new type for adding nagios commands
+this uses my sudo module for adding sudo rules if required
+
+new type for adding extra scripts
+
+new settings for adding sms notification script
+
+new documentation describing how it all works
+
+**1.0.7**
+
+update to use new format for nrep::plugin
+
+**1.0.6**
+
+need to install Unix::Lsof via cpan if it isn't installed
+
+**1.0.5**
+
+adding docs and example node adding a few missing packages
+
+**1.0.4**
+
+a few fixes and requiring new version of nrpe
+
+**1.0.3**
+
+fixing reboot service clas
+
+**1.0.2**
+
+switched back to old way of doing class chaining
+
+**1.0.1**
+
+adding check_period to params and monitoring::host. Removing references to some old var names. Indentation cleanup
+
+**1.0.0**
+
+Initial release
