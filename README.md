@@ -63,8 +63,12 @@ These are class params so use hiera or and ENC to set them up easily.
     $monitoring::params::monitoring_type
     # Type of the monitoring server (icinga or nagios currently)
 
-Extra params for this node
+Extra params for this node.
 
+    $monitoring::params::host_name
+    # for overriding the host_name of this node, defaults to $fqdn
+    $monitoring::params::host_ip
+    # for overriding the host_ip of this node, defaults to $ipaddress
     $monitoring::params::host_groups
     # comma separates list of host_groups to add this host to
     $monitoring::params::parents
@@ -77,6 +81,19 @@ Extra params for this node
     # when to check this host
     $monitoring::params::notification_period
     # when to send notifications for this host
+
+Extra params for setting up a notify script for sms alerts.
+I only have a script for clickatell right now so the defaults set that up.
+
+    $monitoring::params::sms_notify_script_name
+    # name of the script
+    # this will get used in contact templates 
+    $monitoring::params::sms_notify_script_template
+    # template to use for setting up the script
+    $monitoring::params::sms_host_notify_command_args
+    # args to use for the host notify command
+    $monitoring::params::sms_notify_command_args
+    # args to use for the service notify command
 
 Usage
 -----

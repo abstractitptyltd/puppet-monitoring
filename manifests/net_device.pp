@@ -15,7 +15,6 @@ define monitoring::net_device (
 
   include monitoring::params
   $monitoring_service = $monitoring::params::monitoring_service
-  $monitoring_server = $monitoring::params::monitoring_server
 
   if $notifications == false {
     $notifications_enabled = 0
@@ -29,7 +28,7 @@ define monitoring::net_device (
     hostgroups => $host_groups,
     parents => $host_parents,
     contact_groups => 'admins,network_admins',
-    notifications_enabled => $notifications_enabled,
+    notifications_enabled => bool2num($notifications),
     notification_period => $timeperiod,
     check_period => $timeperiod,
     notify => Class[$monitoring_service],
@@ -45,7 +44,7 @@ define monitoring::net_device (
 #    check_command => "check_ping!550.0,40%!750.0,70%",
     check_command => "check_ping!${ping_warn}!${ping_crit}",
     contact_groups => 'admins',
-    notifications_enabled => $notifications_enabled,
+    notifications_enabled => bool2num($notifications),
     notify => Class[$monitoring_service],
     tag => $monitoring_server,
   }
@@ -58,7 +57,7 @@ define monitoring::net_device (
     servicegroups => 'net',
     check_command => "check_route!$host_ip",
     contact_groups => 'admins',
-    notifications_enabled => $notifications_enabled,
+    notifications_enabled => bool2num($notifications),
     notify => Class[$monitoring_service],
     tag => $monitoring_server,
   }
