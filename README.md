@@ -17,8 +17,11 @@ monitoring
 Breaking Changes
 ----------------
 
+As of version 1.1.x
 `$monitoring_service` is no longer a class variable `monitoring::params`
 `$monitoring_type` is used to set the server type (icinga or nagios currently) which determines the user and service to notify
+I have removed some really old files I need to convert so if you were using those let me know.
+I don't think you would be because they don't work with the current setup.
 
 Requirements
 --------
@@ -313,6 +316,13 @@ If you wish to join in let me know.
 
 Release Notes
 -------------
+
+**1.1.1**
+
+Removed some old files that still need converting to the new format.
+Silly me has been including them in the forge builds the whole time without realising.
+Added detailed check scripts for smtp, imap and pop scripts.
+Added route service
 
 **1.1.0**
 
