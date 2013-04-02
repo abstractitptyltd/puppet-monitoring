@@ -306,7 +306,10 @@ Uses exported resources to specify which services get monitored on this node
 Limitations
 ------------
 
-There may be some. Don't hesitate to let me know if you find any.
+Fedora 18 has some issue with importing the services.
+I think it is an issue with puppet or ruby itself but not completely sure at this stage.
+While I would it out you will have to delete the nagios_* files on your monitoring server before importing new resources. 
+There may be others. Don't hesitate to let me know if you find any.
 
 Development
 -----------
