@@ -20,10 +20,9 @@ class monitoring::params (
   $sms_host_notify_command_args = '-a $USER7$ -u $USER8$ -p $USER9$ -n "$NOTIFICATIONTYPE$" -w "$NOTIFICATIONAUTHOR$" -c "$NOTIFICATIONCOMMENT$" -m "$NOTIFICATIONTYPE$: $HOSTNAME$ is $HOSTSTATE$ ($HOSTOUTPUT$) for $HOSTDURATION$" -t $CONTACTPAGER$',
   $sms_notify_command_args = '-a $USER7$ -u $USER8$ -p $USER9$ -n "$NOTIFICATIONTYPE$" -w "$NOTIFICATIONAUTHOR$" -c "$NOTIFICATIONCOMMENT$" -m "$NOTIFICATIONTYPE$: $HOSTNAME$/$SERVICEDESC$ is $SERVICESTATE$ ($SERVICEOUTPUT$) for $SERVICEDURATION$" -t $CONTACTPAGER$',
 ) {
-  if $monitoring_type !~ /(icinga|nagios)/ {
-    # $monitoring_type not set to icinga or nagios
-    fail('monitoring::params::monitoring_type needs to be set to icinga or nagios')
-  }
+  validate_re($monitoring_type, '^(icinga|nagios)$',
+  "${monitoring_type} is not supported for monitoring_type.
+  Allowed values are 'icinga' and 'nagios'.")
   $monitoring_service = "${monitoring_type}::service"
   $monitoring_user = $monitoring_type
 

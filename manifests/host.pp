@@ -8,7 +8,7 @@ class monitoring::host {
   $monitoring_service = $monitoring::params::monitoring_service
   $host_name = $monitoring::params::host_name
   $host_ip = $monitoring::params::host_ip
-  $host_groups = $monitoring::host::host_groups
+  $host_groups = $monitoring::params::host_groups
   $parents = $monitoring::params::parents
   $host_type = $monitoring::params::host_type
   $host_alias = $monitoring::params::host_alias
