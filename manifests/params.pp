@@ -15,6 +15,10 @@ class monitoring::params (
   $notification_period = undef,
   $ping_warn = '550.0,40%',
   $ping_crit = '750.0,70%',
+  $db_server = "db.${domain}",
+  $db_user = 'nagios',
+  $db_pass = hiera('monitoring::db_password', undef),
+  $db_port = 3306,
   $sms_notify_script_name = 'notify_by_clickatell', # these only need to be set if sms_alerts are true
   $sms_notify_script_template = 'monitoring/scripts/notify_by_clickatell.pl.erb',
   $sms_host_notify_command_args = '-a $USER7$ -u $USER8$ -p $USER9$ -n "$NOTIFICATIONTYPE$" -w "$NOTIFICATIONAUTHOR$" -c "$NOTIFICATIONCOMMENT$" -m "$NOTIFICATIONTYPE$: $HOSTNAME$ is $HOSTSTATE$ ($HOSTOUTPUT$) for $HOSTDURATION$" -t $CONTACTPAGER$',

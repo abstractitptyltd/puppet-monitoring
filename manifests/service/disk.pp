@@ -12,7 +12,6 @@ class monitoring::service::disk {
     service_description        => 'NRPE',
   }
   nrpe::plugin { 'disk':
-    ensure => $ensure,
     plugin => 'main',
     sudo => true,
     check_command => 'check_disk',
