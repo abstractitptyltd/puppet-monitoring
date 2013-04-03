@@ -24,15 +24,7 @@ class monitoring::install {
     ensure => installed,
   }
   case $operatingsystem {
-    RedHat,CentOS: {
-      package { "nagios-plugins-perl":
-        ensure => installed,
-      }
-    }
     Fedora: {
-      package { "nagios-plugins-perl":
-        ensure => installed,
-      }
       package { "perl-LWP-Protocol-https":
         ensure => installed,
       }
