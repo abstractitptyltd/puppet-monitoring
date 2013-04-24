@@ -4,15 +4,16 @@ monitoring
 ####Table of Contents
 
 0. [Breaking Changes](#changes)
-1. [Requirements](#requirements)
-2. [Overview - What is the monitoring module?](#overview)
-3. [Module Description - What does the module do?](#module-description)
-4. [Setup - The basics of getting started with monitoring](#setup)
-5. [Usage - The parameters available for configuration](#usage)
-6. [Implementation - An under-the-hood peek at what the module is doing](#implementation)
-7. [Limitations - OS compatibility, etc.](#limitations)
-8. [Development - Guide for contributing to the module](#development)
-9. [Release Notes - Notes on the most recent updates to the module](#release-notes)
+1. [New stuff and bug fixes](#new)
+2. [Requirements](#requirements)
+3. [Overview - What is the monitoring module?](#overview)
+4. [Module Description - What does the module do?](#module-description)
+5. [Setup - The basics of getting started with monitoring](#setup)
+6. [Usage - The parameters available for configuration](#usage)
+7. [Implementation - An under-the-hood peek at what the module is doing](#implementation)
+8. [Limitations - OS compatibility, etc.](#limitations)
+9. [Development - Guide for contributing to the module](#development)
+10. [Release Notes - Notes on the most recent updates to the module](#release-notes)
 
 Breaking Changes
 ----------------
@@ -22,6 +23,15 @@ As of version 1.1.x
 `$monitoring_type` is used to set the server type (icinga or nagios currently) which determines the user and service to notify
 I have removed some really old files I need to convert so if you were using those let me know.
 I don't think you would be because they don't work with the current setup.
+
+New stuff and bug fixes
+-----------------------
+
+added a few new commands
+`check_http_port_string` for checking the existence of a string on a web page
+`check_https_port_string` for checking the existence of a string on a https web page
+added a script so the `check_route` command has something to run
+removed a few commands that didn't have scripts
 
 Requirements
 --------

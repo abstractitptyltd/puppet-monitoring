@@ -22,13 +22,8 @@ class monitoring::service::reboot {
     group  => root,
     mode  => 644,
   }
-  file { 'scripts_server_reboot_alert':
-    ensure  => $ensure,
-    name  => "${nagios_extra_plugins}/server_reboot_alert.pl",
-    mode  => 755,
-    owner  => root,
-    group  => root,
-    content  => template('monitoring/scripts/server_reboot_alert.pl.erb'),
+  monitoring::script {'server_reboot_alert.pl':
+    template => 'monitoring/scripts/server_reboot_alert.pl.erb',
   }
 
 }

@@ -1,0 +1,28 @@
+#!/bin/sh
+
+################################################################################
+# AUTHOR: Vladimir Vuksan
+# E-mail: Check http://vuksan.com/linux/
+# License: GPL
+################################################################################
+if [ $# -ne 1 ]; then
+	echo "Usage: $0 <IPADDRESS>"
+	exit;
+fi		
+
+# Get the IP of the host then do traceroute against it.
+##IP=`/usr/bin/gethostip ${1} | cut -f2 -d" "`
+IP=$1
+PROG=`which traceroute`
+
+TRACEROUTE=`${PROG} ${IP} 2>&1 | grep "(${IP}) "`
+
+RESULT=`echo $TRACEROUTE | grep -c ms`
+
+if [ $RESULT -eq 1 ]; then
+	echo TRACERT OK: `echo $TRACEROUTE | cut -f4- -d" "`
+	exit 0
+else
+	echo TRACERT CRITICAL: Host unreachable
+	exit 2
+fi

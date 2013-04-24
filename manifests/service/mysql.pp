@@ -27,9 +27,6 @@ class monitoring::service::mysql {
     command_args => "-u ${db_user} -p ${db_pass} -H ${db_server} -P ${db_port} -w ,,40,,, -c ,,100,,, -a threads_connected,threads_cached,threads_running,questions,slow_queries,open_tables -A threads_connected,threads_cached,threads_running,questions,slow_queries,open_tables,com_select,com_update,com_insert,com_insert_select,com_commit,com_delete,com_rollback,bytes_received,bytes_sent,qcache_hits,qcache_inserts,qcache_not_cached,questions",
     require => Monitoring::Script['check_mysqld'],
   }
-  monitoring::script { 'check_mysqld':
-    template => "monitoring/scripts/check_mysqld.pl.erb",
-  }
 
   monitoring::service { "mysql_daemon":
     service_description => 'DAEMON MYSQL',
@@ -65,9 +62,6 @@ class monitoring::service::mysql {
     check_command => "check_mysql_connections",
     command_args => "-u ${db_user} -p ${db_pass} -w 50% -c 80% -H ${db_server} -P ${db_port}",
     require => Monitoring::Script['check_mysql_connections'],
-  }
-  monitoring::script { 'check_mysql_connections':
-    template => 'monitoring/scripts/check_mysql_connections.erb',
   }
   package { 'perl-DBD-MySQL':
     name => $osfamily ? { Redhat => "perl-DBD-MySQL", Debian => "libdbd-mysql-perl" },

@@ -17,7 +17,6 @@ class monitoring::server {
     mode => 644,
   }
 
-  ## if monitoring::params::sms_alerts == true {
   monitoring::script { $monitoring::params::sms_notify_script_name:
     template => $monitoring::params::sms_notify_script_template,
   }
@@ -33,7 +32,6 @@ class monitoring::server {
     plugin_type => "extra",
     require => Monitoring::Script[$monitoring::params::sms_notify_script_name],
   }
-  ##}
 
   Nagios_command <| |>
   Nagios_servicegroup <| |>

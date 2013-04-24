@@ -20,13 +20,8 @@ class monitoring::service::memory {
     command_args  => '-w 5% -c 2%',
   }
 
-  file { 'scripts_check_memory':
-    ensure  => $ensure,
-    name  => "${nagios_extra_plugins}/check_memory.pl",
-    mode  => 755,
-    owner  => root,
-    group  => root,
-    content  => template('monitoring/scripts/check_memory.pl.erb'),
+  monitoring::script {'check_memory.pl':
+    template => 'monitoring/scripts/check_memory.pl.erb' 
   }
 
 }
