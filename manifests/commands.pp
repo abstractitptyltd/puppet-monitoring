@@ -136,7 +136,7 @@ class monitoring::commands {
   
   monitoring::command { "check_https_port_string":
     command => "check_http",
-    command_args => '-t $USER3$ -H $ARG1$ -I $ARG2$ -u $ARG2$ -S -w 60 -c 120 -p $ARG3$ -s "$ARG4$"',
+    command_args => '-t $USER3$ -H $ARG1$ -u $ARG2$ -S -p $ARG3$ -s "$ARG4$"',
   }
   
   monitoring::command { "check_http_ssl_cert":
