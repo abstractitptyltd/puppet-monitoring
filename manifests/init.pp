@@ -1,5 +1,6 @@
 
 class monitoring {
+  include sudo
   include monitoring::params
   include monitoring::install
   include monitoring::config

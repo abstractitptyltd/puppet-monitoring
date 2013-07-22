@@ -34,10 +34,15 @@ class monitoring::server {
   }
 
   Nagios_command <| |>
+  Nagios_command <<| |>>
   Nagios_servicegroup <| |>
+  Nagios_servicegroup <<| |>>
   Nagios_contactgroup <| |>
+  Nagios_contactgroup <<| |>>
   Nagios_contact <| |>
+  Nagios_contact <<| |>>
   Nagios_hostgroup <| |>
+  Nagios_hostgroup <<| |>>
   Nagios_hostescalation <| tag == $host_name |>
   Nagios_serviceescalation <| tag == $host_name |>
   Nagios_hostescalation <<| tag == $host_name |>>
