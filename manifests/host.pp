@@ -15,7 +15,19 @@ class monitoring::host {
   $host_alias = $monitoring::params::host_alias
   $check_period = $monitoring::params::check_period
   $notification_period = $monitoring::params::notification_period
-  $host_groups_full = "${hostgroup},${host_groups}"
+  if is_array($host_groups) {
+    if empty($hostgroup) {
+      $host_groups_full = join($host_groups,",")
+    } else {
+      $host_groups_full = join(concat(any2array($hostgroup),$host_groups),",")
+    }
+  } else {
+    if empty($hostgroup) {
+      $host_groups_full = "${host_groups}"
+    } else {
+      $host_groups_full = "${hostgroup},${host_groups}"
+    }
+  }
 
   @@nagios_host { $host_name:
     ensure              => $ensure,
