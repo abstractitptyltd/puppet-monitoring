@@ -27,6 +27,12 @@ I don't think you would be because they don't work with the current setup.
 New stuff and bug fixes
 -----------------------
 
+added a define for creating nagios hostgroups
+added getting hostgroup set by and ENC or other method that sets $::hostgroup
+`monitoring::params::host_groups` can now be an array or a , separated string
+including sudo in base class as it's needed now
+including more exported nagios resources
+
 added a few new commands
 `check_http_port_string` for checking the existence of a string on a web page
 `check_https_port_string` for checking the existence of a string on a https web page
@@ -329,6 +335,23 @@ If you wish to join in let me know.
 
 Release Notes
 -------------
+**1.1.5**
+
+added monitoring::hostgroup define for creating host groups on the monitoring server
+including more exported nagios resources
+
+**1.1.4**
+
+fixing install packages
+
+**1.1.3**
+
+adding mysql check options and commands
+
+**1.1.2**
+
+added some missing scripts
+using validate_re to check monitoring_type
 
 **1.1.1**
 
