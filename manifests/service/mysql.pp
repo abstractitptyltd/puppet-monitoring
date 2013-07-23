@@ -45,6 +45,8 @@ class monitoring::service::mysql {
     check_command => "check_daemon",
     command_args => $db_server ? { default => "${mysqld} -p ${db_port}/tcp -H 127.0.0.1/${db_port} -n 1:1 -c sockets=0:100", 'localhost' => "${mysqld} -n 1:1 -c sockets=0:100" },
   }
+  monitoring::script { 'check_mysqld':
+    template => "monitoring/scripts/check_mysqld.pl.erb",
 
   monitoring::service { "mysql_connections":
     service_description => 'MYSQL connections',
@@ -62,6 +64,10 @@ class monitoring::service::mysql {
     check_command => "check_mysql_connections",
     command_args => "-u ${db_user} -p ${db_pass} -w 50% -c 80% -H ${db_server} -P ${db_port}",
     require => Monitoring::Script['check_mysql_connections'],
+  }
+  }
+  monitoring::script { 'check_mysql_connections':
+    template => 'monitoring/scripts/check_mysql_connections.erb',
   }
   package { 'perl-DBD-MySQL':
     name => $osfamily ? { Redhat => "perl-DBD-MySQL", Debian => "libdbd-mysql-perl" },

@@ -297,16 +297,10 @@ class monitoring::commands {
     command_args => '-u nagios -p $USER2$ -H $ARG1$ -P $ARG2$ -w $USER10$ -c $USER11$ -a $USER12$ -A $USER13$',
     plugin_type => 'extra',
   }
-  monitoring::script { 'check_mysqld':
-    template => "monitoring/scripts/check_mysqld.pl.erb",
-  }
   monitoring::command { "check_mysql_connections":
     command => "check_mysql_connections",
     command_args => '-u nagios -p $USER2$ -w $ARG1$ -c $ARG2$ -H $ARG3$ -P $ARG4$',
     plugin_type => 'extra',
-  }
-  monitoring::script { 'check_mysql_connections':
-    template => 'monitoring/scripts/check_mysql_connections.erb',
   }
   
   monitoring::command { "check_mysql_server":
