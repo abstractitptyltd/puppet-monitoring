@@ -335,6 +335,12 @@ If you wish to join in let me know.
 
 Release Notes
 -------------
+
+**1.1.6**
+
+fixing stupid error
+mysql scripts need to be in mysql service class
+
 **1.1.5**
 
 added monitoring::hostgroup define for creating host groups on the monitoring server
