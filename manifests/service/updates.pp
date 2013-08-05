@@ -3,17 +3,17 @@ class monitoring::service::updates {
   include monitoring::params
 
   monitoring::service { "updates":
-    service_description => 'UPDATES',
-    servicegroups => 'system',
-    check_command => 'check_nrpe!check_updates',
+    service_description   => 'UPDATES',
+    servicegroups         => 'system',
+    check_command         => 'check_nrpe!check_updates',
     normal_check_interval => 1440,
     notification_interval => 1440,
-    retry_check_interval => 720,
-    contact_groups => 'admins,linux_admins',
+    retry_check_interval  => 720,
+    contact_groups        => 'admins,linux_admins',
   }
   monitoring::servicedependency { "updates":
-    dependent_service_description  => 'UPDATES',
-    service_description        => 'NRPE',
+    dependent_service_description => 'UPDATES',
+    service_description           => 'NRPE',
   }
   nrpe::plugin { 'updates':
     ensure => $ensure,
@@ -22,6 +22,7 @@ class monitoring::service::updates {
     command_args => $operatingsystem ? { default => '-t 120 --no-boot-check --security-only', /(Debian|Ubuntu)/ => '-t 120' },
     sudo => $operatingsystem ? { default => false, /(Debian|Ubuntu)/ => true },
   }
+
   case $operatingsystem {
     centos,redhat: {
       package { "yum-security":
@@ -29,9 +30,12 @@ class monitoring::service::updates {
         ensure => installed,
       }
     }
+    
     fedora: {
-      package { [ "yum-plugin-security" ]:
-        ensure => installed,
+      if $operatingsystemrelease < 19 {
+        package { [ "yum-plugin-security" ]:
+          ensure => installed,
+        }
       }
     }
   }
