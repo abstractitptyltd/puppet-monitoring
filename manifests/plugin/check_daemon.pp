@@ -23,6 +23,9 @@ class monitoring::plugin::check_daemon {
   package { "perl-IPC-Run3":
     ensure => installed,
   }
+  package { "perl-Pod-Usage":
+    ensure => installed,
+  }
 
   exec { "install Unix::Lsof via cpan":
     command => "perl -MCPAN -e '\$ENV{PERL_MM_USE_DEFAULT}=1; CPAN::Shell->install(\"Unix::Lsof\")'",
