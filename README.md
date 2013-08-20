@@ -338,6 +338,12 @@ If you wish to join in let me know.
 Release Notes
 -------------
 
+**1.1.8**
+More Fedora 19 package fixes
+
+**1.1.7**
+Fedora 19 package fixes
+
 **1.1.6**
 
 fixing stupid error
