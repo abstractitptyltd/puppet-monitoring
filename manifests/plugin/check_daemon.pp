@@ -23,8 +23,10 @@ class monitoring::plugin::check_daemon {
   package { "perl-IPC-Run3":
     ensure => installed,
   }
-  package { "perl-Pod-Usage":
-    ensure => installed,
+  if $operatingsystemrelease >= 19 {
+    package { "perl-Pod-Usage":
+      ensure => installed,
+    }
   }
 
   exec { "install Unix::Lsof via cpan":
