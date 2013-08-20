@@ -27,6 +27,8 @@ I don't think you would be because they don't work with the current setup.
 New stuff and bug fixes
 -----------------------
 
+fixing some package dependencies for Fedora 19
+
 added a define for creating nagios hostgroups
 added getting hostgroup set by and ENC or other method that sets $::hostgroup
 `monitoring::params::host_groups` can now be an array or a , separated string
