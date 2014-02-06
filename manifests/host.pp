@@ -40,8 +40,12 @@ class monitoring::host {
     notification_period => $notification_period,
     check_period        => $check_period,
     notify              => Class[$monitoring_service],
-    #require             => Nagios_hostgroup[$hostgroup],
     tag                 => $monitoring_server,
+  }
+  if ! defined(Monitoring::Hostgroup[$hostgroup]) {
+    monitoring::hostgroup{ $hostgroup:
+      #ensure => $ensure,
+    }
   }
 
   include monitoring::service::ping

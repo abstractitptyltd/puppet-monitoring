@@ -1,8 +1,9 @@
 
-define monitoring::hostgroup ($ensure = 'present', $host_alias) {
+define monitoring::hostgroup ($ensure = 'present', $host_alias = undef) {
 
   include monitoring::params
   $monitoring_service = $monitoring::params::monitoring_service
+  $monitoring_server = $monitoring::params::monitoring_server
 
   @@nagios_hostgroup { $name:
     ensure         => $ensure,

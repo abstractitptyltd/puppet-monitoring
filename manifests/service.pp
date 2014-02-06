@@ -24,21 +24,27 @@ define monitoring::service (
   $real_sms_group = $sms_contact_groups ? { '' => $contact_groups, default => "${contact_groups},${sms_contact_groups}" }
 
   @@nagios_service { "${host_name}_${name}":
-    ensure => $ensure,
-    use => $service_type,
-    host_name => $host_name,
-    service_description => $service_description,
-    servicegroups => $servicegroups,
-    check_command => $check_command,
-    contact_groups => $sms_alerts ? { false => $contact_groups, true => $real_sms_group },
-    notifications_enabled => $notifications ? { default => undef, false => 0 },
-    max_check_attempts => $max_check_attempts,
+    ensure                => $ensure,
+    use                   => $service_type,
+    host_name             => $host_name,
+    service_description   => $service_description,
+    servicegroups         => $servicegroups,
+    check_command         => $check_command,
+    contact_groups        => $sms_alerts ? {
+      false => $contact_groups,
+      true  => $real_sms_group
+    },
+    notifications_enabled => $notifications ? {
+      default => undef,
+      false   => 0
+    },
+    max_check_attempts    => $max_check_attempts,
     normal_check_interval => $normal_check_interval,
     notification_interval => $notification_interval,
-    retry_check_interval => $retry_check_interval,
-    notification_options => $notification_options,
-    register => $register,
-    notify => Class[$monitoring_service],
-    tag => $monitoring_server,
+    retry_check_interval  => $retry_check_interval,
+    notification_options  => $notification_options,
+    register              => $register,
+    notify                => Class[$monitoring_service],
+    tag                   => $monitoring_server,
   }
 }

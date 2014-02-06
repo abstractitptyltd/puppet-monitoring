@@ -21,32 +21,31 @@ define monitoring::net_device (
   }
 
   @nagios_host { $name:
-    ensure => $ensure,
-    use => 'net_device',
-    alias => $host_alias,
-    address => $host_ip,
-    hostgroups => $host_groups,
-    parents => $host_parents,
-    contact_groups => 'admins,network_admins',
+    ensure                => $ensure,
+    use                   => 'net_device',
+    alias                 => $host_alias,
+    address               => $host_ip,
+    hostgroups            => $host_groups,
+    parents               => $host_parents,
+    contact_groups        => 'admins,network_admins',
     notifications_enabled => bool2num($notifications),
-    notification_period => $timeperiod,
-    check_period => $timeperiod,
-    notify => Class[$monitoring_service],
-    tag => $monitoring_server,
+    notification_period   => $timeperiod,
+    check_period          => $timeperiod,
+    notify                => Class[$monitoring_service],
+    tag                   => $monitoring_server,
   }
 
   @nagios_service { "${name}_ping":
-    ensure => $ensure,
-    use => 'standard_service',
-    host_name => $name,
-    service_description => 'PING',
-    servicegroups => 'net',
-#    check_command => "check_ping!550.0,40%!750.0,70%",
-    check_command => "check_ping!${ping_warn}!${ping_crit}",
-    contact_groups => 'admins',
+    ensure                => $ensure,
+    use                   => 'standard_service',
+    host_name             => $name,
+    service_description   => 'PING',
+    servicegroups         => 'net',
+    check_command         => "check_ping!${ping_warn}!${ping_crit}",
+    contact_groups        => 'admins',
     notifications_enabled => bool2num($notifications),
-    notify => Class[$monitoring_service],
-    tag => $monitoring_server,
+    notify                => Class[$monitoring_service],
+    tag                   => $monitoring_server,
   }
 /*
   @nagios_service { "${name}_route":

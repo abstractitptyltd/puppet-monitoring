@@ -17,16 +17,19 @@ define monitoring::command (
   @nagios_command { $name:
     command_name => $name,
     command_line => $command_line,
-    notify => Class[$monitoring_service],
+    notify       => Class[$monitoring_service],
   }
 
   if $sudo == true {
     if ! defined(Sudo::Rule["monitoring_${plugin_type}_${command}"]) {
       sudo::rule { "monitoring_${plugin_type}_${command}":
-        ensure => $ensure,
-        who => $monitoring_user,
-        commands => $plugin_type ? { "main" => "${nagios_plugins}/${command}", default => "${nagios_extra_plugins}/${command}" },
-        nopass => true,
+        ensure    => $ensure,
+        who       => $monitoring_user,
+        commands  => $plugin_type ? {
+          'main'  => "${nagios_plugins}/${command}",
+          default => "${nagios_extra_plugins}/${command}"
+        },
+        nopass    => true,
       }
     }
   }

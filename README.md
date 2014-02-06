@@ -1,19 +1,27 @@
-monitoring
+abstractit-monitoring
 ====
 
 ####Table of Contents
 
-0. [Breaking Changes](#changes)
-1. [New stuff and bug fixes](#new)
-2. [Requirements](#requirements)
-3. [Overview - What is the monitoring module?](#overview)
-4. [Module Description - What does the module do?](#module-description)
-5. [Setup - The basics of getting started with monitoring](#setup)
-6. [Usage - The parameters available for configuration](#usage)
-7. [Implementation - An under-the-hood peek at what the module is doing](#implementation)
-8. [Limitations - OS compatibility, etc.](#limitations)
-9. [Development - Guide for contributing to the module](#development)
-10. [Release Notes - Notes on the most recent updates to the module](#release-notes)
+0. [New stuff](#new)
+1. [Breaking Changes](#changes)
+2. [Bug fixes](#fixes)
+3. [Requirements](#requirements)
+4. [Overview - What is the monitoring module?](#overview)
+5. [Module Description - What does the module do?](#module-description)
+6. [Setup - The basics of getting started with monitoring](#setup)
+7. [Usage - The parameters available for configuration](#usage)
+8. [Implementation - An under-the-hood peek at what the module is doing](#implementation)
+9. [Limitations - OS compatibility, etc.](#limitations)
+10. [Development - Guide for contributing to the module](#development)
+11. [Release Notes - Notes on the most recent updates to the module](#release-notes)
+
+New stuff
+---------
+
+I recently started a consulting company called Abstract IT Pty Ltd. I have transfered ownership of all my puppet modules to a new organisation on Puppet Forge called abstractit.
+I am making one final release of my modules under rendhalver and abstractit to give you a chance to switch over to the new organisation.
+I have also added a licence. All my modules will be licenced under Apache v2.
 
 Breaking Changes
 ----------------
@@ -24,8 +32,8 @@ As of version 1.1.x
 I have removed some really old files I need to convert so if you were using those let me know.
 I don't think you would be because they don't work with the current setup.
 
-New stuff and bug fixes
------------------------
+Bug fixes
+---------
 
 fixing some package dependencies for Fedora 19
 
@@ -337,6 +345,12 @@ If you wish to join in let me know.
 
 Release Notes
 -------------
+
+**1.1.9**
+
+Final release for rendhalver-nrpe.
+First release as abstractit-nrpe.
+Code cleanups
 
 **1.1.8**
 More Fedora 19 package fixes
