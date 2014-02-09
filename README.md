@@ -346,6 +346,15 @@ If you wish to join in let me know.
 Release Notes
 -------------
 
+**1.2.1**
+
+fix packages on ubuntu
+Depends on new version of abstractit/sudo
+
+**1.2.0**
+
+fixing dependencies
+
 **1.1.9**
 
 Final release for rendhalver-nrpe.

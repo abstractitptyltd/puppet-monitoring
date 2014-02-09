@@ -3,27 +3,27 @@ class monitoring::install {
   # some useful perl modules to install
 
   package { 'perl-Authen-SASL': 
-    name   => $operatingsystem ? { /(CentOS|Redhat|Fedora)/ => 'perl-Authen-SASL', /(Debian|Ubuntu)/ => 'libauthen-sasl-perl'},
+    name   => $::operatingsystem ? { /(CentOS|Redhat|Fedora)/ => 'perl-Authen-SASL', /(Debian|Ubuntu)/ => 'libauthen-sasl-perl'},
     ensure => installed,
   }
   package { 'perl-Mail-Sender': 
-    name   => $operatingsystem ? { /(CentOS|Redhat|Fedora)/ => 'perl-Mail-Sender', /(Debian|Ubuntu)/ => 'libmail-sender-perl'},
+    name   => $::operatingsystem ? { /(CentOS|Redhat|Fedora)/ => 'perl-Mail-Sender', /(Debian|Ubuntu)/ => 'libmail-sender-perl'},
     ensure => installed,
   }
   package { 'perl-Mail-IMAPClient':
-    name   => $operatingsystem ? { /(CentOS|Redhat|Fedora)/ => 'perl-Mail-IMAPClient', /(Debian|Ubuntu)/ => 'libmail-imapclient-perl'},
+    name   => $::operatingsystem ? { /(CentOS|Redhat|Fedora)/ => 'perl-Mail-IMAPClient', /(Debian|Ubuntu)/ => 'libmail-imapclient-perl'},
     ensure => installed,
   }
   package { 'perl-YAML':
-    name   => $operatingsystem ? { /(CentOS|Redhat|Fedora)/ => 'perl-YAML', /(Debian|Ubuntu)/ => 'libyaml-perl' },
+    name   => $::operatingsystem ? { /(CentOS|Redhat|Fedora)/ => 'perl-YAML', /(Debian|Ubuntu)/ => 'libyaml-perl' },
     ensure => installed,
   }
 
   package { 'libwww-perl':
-    name   => $operatingsystem ? { /(Debian|Ubuntu)/ => 'libwww-perl', /(CentOS|Redhat|Fedora)/ => 'perl-libwww-perl'},
+    name   => $::operatingsystem ? { /(Debian|Ubuntu)/ => 'libwww-perl', /(CentOS|Redhat|Fedora)/ => 'perl-libwww-perl'},
     ensure => installed,
   }
-  case $operatingsystem {
+  case $::operatingsystem {
     Fedora: {
       package { 'perl-LWP-Protocol-https':
         ensure => installed,
@@ -44,6 +44,7 @@ class monitoring::install {
   }
 
   package { 'perl-Crypt-SSLeay':
+    name   => $::operatingsystem ? { /(Debian|Ubuntu)/ => 'libcrypt-ssleay-perl', /(CentOS|Redhat|Fedora)/ => 'perl-Crypt-SSLeay'},
     ensure => installed,
   }
 
