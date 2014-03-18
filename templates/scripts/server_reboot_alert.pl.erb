@@ -28,7 +28,7 @@ sleep(240);
 if ($upsecs > 300 ) {
     print "only a cron restart not a full rebooot" if $verbose;
 } else {
-    $command = '<%= nagios_extra_plugins %>/submit_check_result '.$nagiosname.' "REBOOT" WARNING "server was rebooted"';
+    $command = '<%= @nagios_extra_plugins %>/submit_check_result '.$nagiosname.' "REBOOT" WARNING "server was rebooted"';
 }
 
 $result = system($command);
