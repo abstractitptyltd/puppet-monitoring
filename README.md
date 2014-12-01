@@ -391,6 +391,10 @@ If you wish to join in let me know.
 Release Notes
 -------------
 
+**1.3.1**
+
+BUGFIXES: set monitoring_server and monitoring_type to under in params class
+
 **1.3.0**
 
 BUGFIXES: Template fixes (@rfray)

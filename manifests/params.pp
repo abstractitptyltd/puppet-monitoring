@@ -3,8 +3,8 @@ class monitoring::params (
   $ensure = present,
   $sms_alerts = true,
   $notifications = true,
-  $monitoring_server,
-  $monitoring_type, # ie icinga or nagios
+  $monitoring_server = undef,
+  $monitoring_type = undef, # ie icinga or nagios
   $host_name = $::fqdn,
   $host_ip = $::ipaddress,
   $host_groups = undef,
