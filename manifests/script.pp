@@ -1,5 +1,5 @@
 define monitoring::script (
-  $ensure = hiera('monitoring::params::ensure','present'),
+  $ensure = hiera('monitoring::ensure','present'),
   $template = undef,
   $file = undef,
   $script_type = 'template',
@@ -11,8 +11,8 @@ define monitoring::script (
     fail('file needs file')
   }
 
-  include monitoring::params
-  $nagios_extra_plugins = $monitoring::params::nagios_extra_plugins
+  include ::monitoring
+  $nagios_extra_plugins = $::monitoring::nagios_extra_plugins
 
   file { $name:
     ensure       => $ensure,

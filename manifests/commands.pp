@@ -1,7 +1,7 @@
-  
+
 class monitoring::commands {
-  include monitoring::params
-  $monitoring_service = $monitoring::params::monitoring_service
+  include ::monitoring
+  $monitoring_service = $::monitoring::monitoring_service
 
   monitoring::command { 'check_local_disk':
     command      => 'check_disk',
@@ -191,7 +191,7 @@ class monitoring::commands {
   }
 
   monitoring::command { 'check_pop_detailed':
-    ## arg1 host arg2 port
+    # # arg1 host arg2 port
     command      => 'check_pop',
     command_args => '-t $USER3$ -H $ARG1$ -p $ARG2$',
   }
@@ -202,13 +202,13 @@ class monitoring::commands {
   }
 
   monitoring::command { 'check_imap_detailed':
-    ## arg1 host arg2 port
+    # # arg1 host arg2 port
     command      => 'check_imap',
     command_args => '-t $USER3$ -H $ARG1$ -p $ARG2$',
   }
 
   monitoring::command { 'check_smtp_detailed':
-    ## arg1 host arg2 port
+    # # arg1 host arg2 port
     command      => 'check_smtp',
     command_args => '-t $USER3$ -H $ARG1$ -p $ARG2$',
   }
@@ -254,10 +254,10 @@ class monitoring::commands {
   }
 
   monitoring::command { 'check_sip':
-    command       => 'check_sip',
-    command_args  => '-u sip:$ARG1$@$ARG2$ -w $USER3$',
-    #command_args => '-u sip:$ARG1$@$ARG2$ -f sip:$ARG1$@$ARG2$ -H $ARG2$ -w $USER3$',
-    #command_args => '-H $HOSTADDRESS$ -u sip:$ARG1$ -w $USER3$',
+    command      => 'check_sip',
+    command_args => '-u sip:$ARG1$@$ARG2$ -w $USER3$',
+  # command_args => '-u sip:$ARG1$@$ARG2$ -f sip:$ARG1$@$ARG2$ -H $ARG2$ -w $USER3$',
+  # command_args => '-H $HOSTADDRESS$ -u sip:$ARG1$ -w $USER3$',
   }
 
   monitoring::command { 'check_host_alive':
@@ -297,6 +297,7 @@ class monitoring::commands {
     command_args => '-u nagios -p $USER2$ -H $ARG1$ -P $ARG2$ -w $USER10$ -c $USER11$ -a $USER12$ -A $USER13$',
     plugin_type  => 'extra',
   }
+
   monitoring::command { 'check_mysql_connections':
     command      => 'check_mysql_connections',
     command_args => '-u nagios -p $USER2$ -w $ARG1$ -c $ARG2$ -H $ARG3$ -P $ARG4$',

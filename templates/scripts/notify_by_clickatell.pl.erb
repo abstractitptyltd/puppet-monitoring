@@ -5,7 +5,7 @@ require LWP::UserAgent;
 
 use Getopt::Long;
 use vars qw($opt_version $opt_help $opt_username $opt_nagiosuser $opt_nagioscomment $opt_notificationtype $opt_password $opt_api_id $opt_baseurl $opt_text $opt_to $opt_timeout $PROGNAME);
-use lib "<%= scope.lookupvar('monitoring::params::nagios_plugins') %>" ;
+use lib "<%= scope.lookupvar('monitoring::nagios_plugins') %>" ;
 use utils qw(%ERRORS &print_revision &support &usage);
 
 $PROGNAME = "notify_by_clickatell";
@@ -56,7 +56,7 @@ my $send_url = $opt_baseurl."/http/sendmsg?concat=3&user=".$opt_username."&passw
 # print $send_url."\n";
 
 my $ua = LWP::UserAgent->new;
-$ua->agent("<%= scope.lookupvar('monitoring::params::server_type') %>");
+$ua->agent("<%= scope.lookupvar('monitoring::server_type') %>");
 $ua->timeout($opt_timeout);
 
 my $response = $ua->get($send_url);

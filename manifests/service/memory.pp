@@ -1,18 +1,21 @@
 
 class monitoring::service::memory {
-  include monitoring::params
-  $nagios_extra_plugins = $monitoring::params::nagios_extra_plugins
+  include ::monitoring
+  $ensure               = $::monitoring::ensure
+  $nagios_extra_plugins = $::monitoring::nagios_extra_plugins
 
-  monitoring::service { "memory":
+  monitoring::service { 'memory':
     service_description => 'MEMORY',
     servicegroups       => 'system',
     check_command       => 'check_nrpe!check_memory',
     contact_groups      => 'admins',
   }
-  monitoring::servicedependency { "memory":
+
+  monitoring::servicedependency { 'memory':
     dependent_service_description => 'MEMORY',
     service_description           => 'NRPE',
   }
+
   nrpe::plugin { 'memory':
     ensure        => $ensure,
     plugin        => 'extra',
@@ -20,8 +23,8 @@ class monitoring::service::memory {
     command_args  => '-w 5% -c 2%',
   }
 
-  monitoring::script {'check_memory.pl':
-    template => 'monitoring/scripts/check_memory.pl.erb' 
+  monitoring::script { 'check_memory.pl':
+    template => 'monitoring/scripts/check_memory.pl.erb'
   }
 
 }

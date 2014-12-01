@@ -19,6 +19,10 @@ abstractit-monitoring
 New stuff
 ---------
 
+Initial move towards using base class as primary API.
+Added metadata.json file for compatability with newer versions of puppet
+Fixed template variables
+
 I recently started a consulting company called Abstract IT Pty Ltd. I have transfered ownership of all my puppet modules to a new organisation on Puppet Forge called abstractit.
 I am making one final release of my modules under rendhalver and abstractit to give you a chance to switch over to the new organisation.
 I have also added a licence. All my modules will be licenced under Apache v2.
@@ -87,13 +91,40 @@ This will also pull in all the exported resources for a node that is also a moni
 Variables that need to be set for monitoring to work
 These are class params so use hiera or and ENC to set them up easily.
 
+Using monitoring class:
+
+    $monitoring::monitoring_server
+    # node that will monitor this node
+    $monitoring::monitoring_type
+    # Type of the monitoring server (icinga or nagios currently)
+
+Using monitoring::params
     $monitoring::params::monitoring_server
     # node that will monitor this node
     $monitoring::params::monitoring_type
     # Type of the monitoring server (icinga or nagios currently)
 
 Extra params for this node.
+Using monitoring class
 
+    $monitoring::host_name
+    # for overriding the host_name of this node, defaults to $fqdn
+    $monitoring::host_ip
+    # for overriding the host_ip of this node, defaults to $ipaddress
+    $monitoring::host_groups
+    # comma separates list of host_groups to add this host to
+    $monitoring::parents
+    # parent for this host
+    $monitoring::host_type
+    # host template to use for this host default is linux_server
+    $monitoring::host_alias
+    # alias to set for this host
+    $monitoring::check_period
+    # when to check this host
+    $monitoring::notification_period
+    # when to send notifications for this host
+
+using monitoring::params
     $monitoring::params::host_name
     # for overriding the host_name of this node, defaults to $fqdn
     $monitoring::params::host_ip
@@ -111,9 +142,22 @@ Extra params for this node.
     $monitoring::params::notification_period
     # when to send notifications for this host
 
+
 Extra params for setting up a notify script for sms alerts.
 I only have a script for clickatell right now so the defaults set that up.
+Using monitoring class
 
+    $monitoring::sms_notify_script_name
+    # name of the script
+    # this will get used in contact templates 
+    $monitoring::sms_notify_script_template
+    # template to use for setting up the script
+    $monitoring::sms_host_notify_command_args
+    # args to use for the host notify command
+    $monitoring::sms_notify_command_args
+    # args to use for the service notify command
+
+using monitoring::params class
     $monitoring::params::sms_notify_script_name
     # name of the script
     # this will get used in contact templates 
@@ -123,6 +167,7 @@ I only have a script for clickatell right now so the defaults set that up.
     # args to use for the host notify command
     $monitoring::params::sms_notify_command_args
     # args to use for the service notify command
+
 
 Usage
 -----
@@ -345,6 +390,11 @@ If you wish to join in let me know.
 
 Release Notes
 -------------
+
+**1.3.0**
+
+BUGFIXES: Template fixes (@rfray)
+Initial move towards using base class as primary API.
 
 **1.2.1**
 

@@ -20,7 +20,7 @@ PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
 PROGNAME=`basename $0`
 PROGPATH=`echo $0 | sed -e 's,[\\/][^\\/][^\\/]*$,,'`
 
-. <%= scope.lookupvar('monitoring::params::nagios_plugins') %>/utils.sh
+. <%= scope.lookupvar('monitoring::nagios_plugins') %>/utils.sh
 
 WARN=0
 CRIT=0

@@ -1,6 +1,6 @@
 class monitoring::contactgroups {
-  include monitoring::params
-  $monitoring_service = $monitoring::params::monitoring_service
+  include ::monitoring
+  $monitoring_service = $::monitoring::monitoring_service
 
   nagios_contactgroup { 'escalation_second':
     contactgroup_name => 'escalation_second',
