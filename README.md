@@ -391,6 +391,10 @@ If you wish to join in let me know.
 Release Notes
 -------------
 
+**1.3.2**
+
+BUGFIXES: get monitoring_server and monitoring_type in defines from base class
+
 **1.3.1**
 
 BUGFIXES: set monitoring_server and monitoring_type to under in params class

@@ -1,18 +1,18 @@
 
 define monitoring::net_device (
-  $ensure            = present,
+  $ensure        = present,
   $host_ip,
-  $host_parents      = undef,
-  $host_groups       = 'network_hardware',
-  $host_alias        = undef,
-  $host_type         = 'network_hardware',
-  $timeperiod        = undef,
-  $ping_warn         = '550.0,40%',
-  $ping_crit         = '750.0,70%',
-  $notifications     = true,
-  $monitoring_server = hiera('monitoring::monitoring_server'),) {
+  $host_parents  = undef,
+  $host_groups   = 'network_hardware',
+  $host_alias    = undef,
+  $host_type     = 'network_hardware',
+  $timeperiod    = undef,
+  $ping_warn     = '550.0,40%',
+  $ping_crit     = '750.0,70%',
+  $notifications = true) {
   include ::monitoring
   $monitoring_service = $::monitoring::monitoring_service
+  $monitoring_server  = $::monitoring::monitoring_server
 
   if $notifications == false {
     $notifications_enabled = 0

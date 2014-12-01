@@ -1,5 +1,5 @@
 name 'abstractit-monitoring'
-version '1.3.1'
+version '1.3.2'
 summary 'puppet module for managing puppet monitoring resources'
 description "manage puppet's nagios_* resources in a monitoring server agnostic way
     Easily setup nodes with basic monitoring services

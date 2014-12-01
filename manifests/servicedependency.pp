@@ -3,16 +3,10 @@ define monitoring::servicedependency (
   $host_name           = hiera('monitoring::host_name', $fqdn),
   $service_description,
   $dependent_host_name = hiera('monitoring::host_name', $fqdn),
-  $dependent_service_description,
-  $monitoring_service  = hiera('monitoring::monitoring_service', 'icinga::service'),
-  $monitoring_server   = hiera('monitoring::monitoring_server'),) {
-  #  include ::monitoring
-  # $host_type = $::monitoring::host_type
-  #  $nagios_host_name = $::monitoring::nagios_host_name
-  #  $monitoring_service = $::monitoring::monitoring_service
-  #  $monitoring_server = $::monitoring::monitoring_server
-  #  $real_sms_group = $sms_contact_groups ? { '' => $contact_groups, default => "${contact_groups},${sms_contact_groups}" }
-
+  $dependent_service_description) {
+  include ::monitoring
+  $monitoring_server  = $::monitoring::monitoring_server
+  $monitoring_service = $::monitoring::monitoring_service
 
   @@nagios_servicedependency { "${host_name}_${name}":
     ensure    => $ensure,

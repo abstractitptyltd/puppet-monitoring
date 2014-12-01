@@ -10,7 +10,6 @@ define monitoring::service (
   $sms_contact_groups    = '',
   $register              = 1,
   $host_name             = hiera('monitoring::host_name', $fqdn),
-  $monitoring_server     = hiera('monitoring::monitoring_server'),
   $max_check_attempts    = undef,
   $notification_options  = undef,
   $normal_check_interval = undef,
@@ -19,6 +18,7 @@ define monitoring::service (
   include ::monitoring
   $host_type          = $::monitoring::host_type
   $monitoring_service = $::monitoring::monitoring_service
+  $monitoring_server  = $::monitoring::monitoring_server
   $real_sms_group     = $sms_contact_groups ? {
     ''      => $contact_groups,
     default => "${contact_groups},${sms_contact_groups}"
