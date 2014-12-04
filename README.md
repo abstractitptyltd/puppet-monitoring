@@ -391,6 +391,10 @@ If you wish to join in let me know.
 Release Notes
 -------------
 
+**1.3.3**
+
+BUGFIXES: don't setup hostgroup for a node if it is undefined
+
 **1.3.2**
 
 BUGFIXES: get monitoring_server and monitoring_type in defines from base class

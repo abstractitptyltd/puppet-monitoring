@@ -47,9 +47,11 @@ class monitoring::host (
     tag                 => $monitoring_server,
   }
 
-  if !defined(Monitoring::Hostgroup[$hostgroup]) {
-    monitoring::hostgroup { $hostgroup:
-    # ensure => $ensure,
+  if (is_string($hostgroup) and !empty($hostgroup)) {
+    if !defined(Monitoring::Hostgroup[$hostgroup]) {
+      monitoring::hostgroup { $hostgroup:
+      # ensure => $ensure,
+      }
     }
   }
 
