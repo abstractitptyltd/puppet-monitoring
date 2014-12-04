@@ -1,6 +1,6 @@
 {
     "name": "abstractit-monitoring",
-    "version": "1.3.2",
+    "version": "1.3.3",
     "author": "Abstract IT",
     "license": "Apache v2 Licence",
     "summary": "Automagical monitoring with Puppet",
