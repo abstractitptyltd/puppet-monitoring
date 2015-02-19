@@ -18,7 +18,7 @@ class monitoring::host (
 
   if is_array($host_groups) {
     if empty($hostgroup) {
-      $host_groups_full = join($host_groups, ",")
+      $host_groups_full = join($host_groups, ',')
     } else {
       $host_groups_full = join(concat(any2array($hostgroup), $host_groups), ',')
     }
