@@ -53,6 +53,19 @@ class monitoring::install {
         ensure => installed,
       }
     }
+    CentOS, RedHat : {
+      if ($::operatingsystemmajrelease >= 7) {
+        package { 'perl-LWP-Protocol-https':
+          ensure => installed,
+        }
+      } else {
+        exec { 'install LWP::Protocol::https via cpan':
+          command => "perl -MCPAN -e '\$ENV{PERL_MM_USE_DEFAULT}=1; CPAN::Shell->install(\"LWP::Protocol::https\")'",
+          onlyif  => "test `perl -MLWP::Protocol::https -e 'print 1' 2>/dev/null || echo 0` == '0'",
+          require => Package['libwww-perl'],
+        }
+      }
+    }
     default        : {
       exec { 'install LWP::Protocol::https via cpan':
         command => "perl -MCPAN -e '\$ENV{PERL_MM_USE_DEFAULT}=1; CPAN::Shell->install(\"LWP::Protocol::https\")'",

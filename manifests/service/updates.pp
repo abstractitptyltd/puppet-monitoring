@@ -20,19 +20,19 @@ class monitoring::service::updates {
 
   nrpe::plugin { 'updates':
     ensure        => $ensure,
-    plugin        => $operatingsystem ? {
+    plugin        => $::operatingsystem ? {
       default            => 'main',
       /(Debian|Ubunutu)/ => 'main'
     },
-    check_command => $operatingsystem ? {
+    check_command => $::operatingsystem ? {
       default           => 'check_updates',
       /(Debian|Ubuntu)/ => 'check_apt'
     },
-    command_args  => $operatingsystem ? {
+    command_args  => $::operatingsystem ? {
       default           => '-t 120 --no-boot-check --security-only',
       /(Debian|Ubuntu)/ => '-t 120'
     },
-    sudo          => $operatingsystem ? {
+    sudo          => $::operatingsystem ? {
       default           => false,
       /(Debian|Ubuntu)/ => true
     },
@@ -40,17 +40,19 @@ class monitoring::service::updates {
 
   case $operatingsystem {
     centos, redhat : {
-      package { 'yum-security':
-        name   => $operatingsystemrelease ? {
-          default => 'yum-plugin-security',
-          /^5/    => 'yum-security'
-        },
-        ensure => installed,
+      if $::operatingsystemmajrelease < 7 {
+        package { 'yum-security':
+          ensure => installed,
+          name   => $::operatingsystemrelease ? {
+            default => 'yum-plugin-security',
+            /^5/    => 'yum-security'
+          },
+        }
       }
     }
 
     fedora         : {
-      if $operatingsystemrelease < 19 {
+      if $::operatingsystemrelease < 19 {
         package { ['yum-plugin-security']:
           ensure => installed,
         }
