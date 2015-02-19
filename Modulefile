@@ -7,7 +7,7 @@ description "manage puppet's nagios_* resources in a monitoring server agnostic 
     Pretty basic for now but it will grow as I add new wrapper classes."
 project_page 'https://github.com/abstractitptyltd/puppet-monitoring'
 source 'https://github.com/abstractitptyltd/puppet-monitoring'
-license 'Apache v2 Licence'
-dependency 'abstractit/nrpe', '>=1.2.0'
-dependency 'abstractit/sudo', '>=1.2.1'
-dependency 'puppetlabs/stdlib', '>=4.1.0'
+license 'Apache-2.0'
+dependency 'abstractit/nrpe', '>=1.2.0 <2.0.0'
+dependency 'abstractit/sudo', '>=1.2.1 <2.0.0'
+dependency 'puppetlabs/stdlib', '>=4.1.0 <5.0.0'
