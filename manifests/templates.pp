@@ -5,8 +5,8 @@ class monitoring::templates {
   $nagios_notify_interval = $::monitoring::nagios_notify_interval
 
   nagios_contact { 'sysadmin_pager':
-    ensure   => present,
-    register => '0',
+    ensure                        => present,
+    register                      => '0',
     service_notification_period   => '24x7',
     host_notification_period      => '24x7',
     service_notification_options  => 'w,u,c,r',
@@ -16,12 +16,12 @@ class monitoring::templates {
     can_submit_commands           => '1',
     retain_status_information     => '1',
     retain_nonstatus_information  => '1',
-    notify   => Class[$monitoring_service],
+    notify                        => Class[$monitoring_service],
   }
 
   nagios_contact { 'sysadmin_email':
-    ensure   => present,
-    register => '0',
+    ensure                        => present,
+    register                      => '0',
     service_notification_period   => '24x7',
     host_notification_period      => '24x7',
     service_notification_options  => 'w,u,c,r',
@@ -31,12 +31,12 @@ class monitoring::templates {
     can_submit_commands           => '1',
     retain_status_information     => '1',
     retain_nonstatus_information  => '1',
-    notify   => Class[$monitoring_service],
+    notify                        => Class[$monitoring_service],
   }
 
   nagios_contact { 'pager':
-    ensure   => present,
-    register => '0',
+    ensure                        => present,
+    register                      => '0',
     service_notification_period   => '24x7',
     host_notification_period      => '24x7',
     service_notification_options  => 'w,u,c,r',
@@ -46,12 +46,12 @@ class monitoring::templates {
     can_submit_commands           => '1',
     retain_status_information     => '1',
     retain_nonstatus_information  => '1',
-    notify   => Class[$monitoring_service],
+    notify                        => Class[$monitoring_service],
   }
 
   nagios_contact { 'email':
-    ensure   => present,
-    register => '0',
+    ensure                        => present,
+    register                      => '0',
     service_notification_period   => '24x7',
     host_notification_period      => '24x7',
     service_notification_options  => 'w,u,c,r',
@@ -61,7 +61,7 @@ class monitoring::templates {
     can_submit_commands           => '1',
     retain_status_information     => '1',
     retain_nonstatus_information  => '1',
-    notify   => Class[$monitoring_service],
+    notify                        => Class[$monitoring_service],
   }
 
   nagios_host { 'generic_host':
@@ -74,9 +74,9 @@ class monitoring::templates {
     retain_status_information    => '1',
     retain_nonstatus_information => '1',
     notification_period          => '24x7',
-    check_period => '24x7',
-    register     => '0',
-    notify       => Class[$monitoring_service],
+    check_period                 => '24x7',
+    register                     => '0',
+    notify                       => Class[$monitoring_service],
   }
 
   nagios_host { 'linux_server':
@@ -191,9 +191,9 @@ class monitoring::templates {
     process_perf_data            => '1',
     retain_status_information    => '1',
     retain_nonstatus_information => '1',
-    is_volatile => '0',
-    register    => '0',
-    notify      => Class[$monitoring_service],
+    is_volatile                  => '0',
+    register                     => '0',
+    notify                       => Class[$monitoring_service],
   }
 
   nagios_service { 'standard_service':

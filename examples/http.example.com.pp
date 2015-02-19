@@ -1,4 +1,4 @@
-node "http.example.com" {
+node 'http.example.com' {
   # # this pulls in nrpe and the base monitoring services
   include monitoring
 
@@ -6,7 +6,7 @@ node "http.example.com" {
   # this gets exported to the monitoring server set via the ::monitoring::monitoring_server variable
   # set the ::monitoring::monitoring_service variable to the class that manages the service for that server
   # the hostname is automagically set in the monitoring class
-  monitoring::service { "http_daemon":
+  monitoring::service { 'http_daemon':
     service_description => 'DAEMON HTTP',
     servicegroups       => 'http,important_email',
     check_command       => 'check_nrpe!check_http_daemon',
@@ -21,7 +21,7 @@ node "http.example.com" {
     sudo          => true, # this runs the check with sudo, currently you need to setup the rules manually, that will change as soon
     # as i release my sudo module :)
     plugin        => 'extra', # the script lives in the directory defined in the monitoring::nagios_extra_plugins var in hiera
-    check_command => "check_daemon httpd --label httpd -H :::/443 -n 5:30 -c sockets=0:150",
+    check_command => 'check_daemon httpd --label httpd -H :::/443 -n 5:30 -c sockets=0:150',
   # the command that gets run. the
   # directory and sudo will get added to
   # the front of the command

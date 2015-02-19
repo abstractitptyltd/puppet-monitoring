@@ -1,7 +1,7 @@
 define monitoring::command (
-  $ensure      = hiera('monitoring::ensure', 'present'),
   $command,
   $command_args,
+  $ensure      = hiera('monitoring::ensure', 'present'),
   $plugin_type = 'main',
   $sudo        = false,) {
   include ::monitoring
@@ -12,6 +12,15 @@ define monitoring::command (
 
   $command_line         = inline_template('<% if sudo == true %>/usr/bin/sudo <% end %><% if plugin_type == "none" %><% elsif plugin_type == "main" %>$USER1$/<% else %>$USER5$/<% end %><%= command %> <%= command_args %>'
   )
+
+  case $plugin_type {
+    default : {
+      $sudo_command = "${nagios_extra_plugins}/${command}"
+    }
+    'main'  : {
+      $sudo_command = "${nagios_plugins}/${command}"
+    }
+  }
 
   @nagios_command { $name:
     command_name => $name,
@@ -24,10 +33,7 @@ define monitoring::command (
       sudo::rule { "monitoring_${plugin_type}_${command}":
         ensure   => $ensure,
         who      => $monitoring_user,
-        commands => $plugin_type ? {
-          'main'  => "${nagios_plugins}/${command}",
-          default => "${nagios_extra_plugins}/${command}"
-        },
+        commands => $sudo_command,
         nopass   => true,
       }
     }

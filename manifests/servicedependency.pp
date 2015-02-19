@@ -9,14 +9,14 @@ define monitoring::servicedependency (
   $monitoring_service = $::monitoring::monitoring_service
 
   @@nagios_servicedependency { "${host_name}_${name}":
-    ensure    => $ensure,
+    ensure                        => $ensure,
     dependent_host_name           => $dependent_host_name,
     dependent_service_description => $dependent_service_description,
-    host_name => $host_name,
+    host_name                     => $host_name,
     service_description           => $service_description,
     execution_failure_criteria    => 'u,c,p',
     notification_failure_criteria => 'u,c,p',
-    notify    => Class[$monitoring_service],
-    tag       => $monitoring_server,
+    notify                        => Class[$monitoring_service],
+    tag                           => $monitoring_server,
   }
 }

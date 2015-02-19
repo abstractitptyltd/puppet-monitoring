@@ -38,7 +38,7 @@ class monitoring::service::updates {
     },
   }
 
-  case $operatingsystem {
+  case $::operatingsystem {
     centos, redhat : {
       if $::operatingsystemmajrelease < 7 {
         package { 'yum-security':
