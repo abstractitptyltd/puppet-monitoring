@@ -1,3 +1,10 @@
+##2015-03-27 - Pete Brown <pete@abstractit.com.au> 1.3.5
+###Summary
+Bugfix release
+
+####Bugfixes
+Fixing location of perl binary for exec to install LWP::Protocol::https
+
 ##2015-02-20 - Pete Brown <pete@abstractit.com.au> 1.3.4
 ###Summary
 Initial support for osfamily == Redhat 7
