@@ -60,16 +60,22 @@ class monitoring::install {
         }
       } else {
         exec { 'install LWP::Protocol::https via cpan':
+          path    => [
+            '/bin',
+            '/usr/bin'],
           command => "perl -MCPAN -e '\$ENV{PERL_MM_USE_DEFAULT}=1; CPAN::Shell->install(\"LWP::Protocol::https\")'",
-          onlyif  => "test `/usr/bin/perl -MLWP::Protocol::https -e 'print 1' 2>/dev/null || echo 0` == '0'",
+          onlyif  => "test `perl -MLWP::Protocol::https -e 'print 1' 2>/dev/null || echo 0` == '0'",
           require => Package['libwww-perl'],
         }
       }
     }
     default        : {
       exec { 'install LWP::Protocol::https via cpan':
+        path    => [
+          '/bin',
+          '/usr/bin'],
         command => "perl -MCPAN -e '\$ENV{PERL_MM_USE_DEFAULT}=1; CPAN::Shell->install(\"LWP::Protocol::https\")'",
-        onlyif  => "test `/usr/bin/perl -MLWP::Protocol::https -e 'print 1' 2>/dev/null || echo 0` == '0'",
+        onlyif  => "test `perl -MLWP::Protocol::https -e 'print 1' 2>/dev/null || echo 0` == '0'",
         require => Package['libwww-perl'],
       }
     }
