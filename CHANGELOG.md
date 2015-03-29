@@ -1,3 +1,10 @@
+##2015-03-30 - Pete Brown <pete@abstractit.com.au> 1.3.6
+###Summary
+Bugfix release
+
+####Bugfixes
+Add path to exec to install LWP::Protocol::https
+
 ##2015-03-27 - Pete Brown <pete@abstractit.com.au> 1.3.5
 ###Summary
 Bugfix release
